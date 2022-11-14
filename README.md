@@ -17,4 +17,6 @@ Si aciertamos, el juego ha acabado. Si fallamos, obtendremos una pista sobre si 
   - Si no lo es, damos la pista
 
 ## Segunda iteración
-En vez de jugar solos, jugaremos contra JavaScript, por lo que él también tendrá un turno para intentar acertar el número secreto. ¿Quién ganará?
+- Establecer un número máximo de intentos.
+- En vez de jugar solos, jugaremos contra JavaScript, por lo que él también tendrá un turno para intentar acertar el número secreto. ¿Quién ganará?
+
