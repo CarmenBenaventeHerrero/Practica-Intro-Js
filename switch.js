@@ -8,18 +8,25 @@ switch(note) {
   case 3:
   case 4:
     console.log('suspenso')
+    break;
   case 5:
     console.log('suficiente')
+    break;
   case 6:
     console.log('bien')
+    break;
   case 7:
   case 8:
     console.log('notable')
+    break;
   case 9:
     console.log('sobresaliente')
+    break;
   case 10:
     console.log('mdh')
+    break;
   default:
     console.log('nota no valida')
+    break;
 }
 
