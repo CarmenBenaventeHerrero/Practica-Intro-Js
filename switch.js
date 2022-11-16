@@ -1,3 +1,4 @@
+// Escribe un switch que dada la nota numérica de un examen, imprima por consola si es un suspenso, suficiente, bien, notable, sobresaliente o matrícula.
 const note = 6;
 
 switch(note) {
