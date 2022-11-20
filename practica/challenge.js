@@ -58,19 +58,20 @@ const rl = readline.createInterface({
 //Productor -->quien gestiona y retorna la promesa
 function getNumberFromConsole() {
   const promise = new Promise((resolve, reject) => {
-    if( 
-      rl.question('Introduce un número del 1 al 18: ', (num) => {
-            rl.pause();
-            resolve(num)
-            reject()
+    rl.question('Introduce un número del 1 al 18: ', (num) => {
+      if(num > 0 && num <= 17){
+        rl.pause();
+        resolve(num)
+    }
+      else{
+        reject(new Error('Error, número no válido'))
+      }
           //si el usuario mete una letra, debemos hacer un reject
-      }));
-    else{
-
-    } 
-  })
-  return promise;
-}
+      })
+    })
+    
+      return promise;
+    }
 
 //Consumidor -->quien consume la promesa
 
@@ -80,11 +81,11 @@ async function main(){
     //const numberFromConsole = await getNumberFromConsole();
     //const numberFromConsoleParse = parseInt(numberFromConsole) 
     }
-    catch(error) {
-      console.log('Error, la aplicación terminó')
+  catch(error) {
+    console.log('Error, la aplicación terminó')
   }
 }
-
+main()
 const numberFromConsoleParse = 1 //inicializo la variable para que se meta en el do/while
 
 do {
