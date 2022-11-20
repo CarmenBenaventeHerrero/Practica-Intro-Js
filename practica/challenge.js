@@ -1,36 +1,36 @@
 const students = [{
   age: 32,
-  examScores: [],
+  examScores: [5, 7, 8],
   gender: 'male',
   name: 'edu'
 },
 {
   age: 29,
-  examScores: [],
+  examScores: [8, 3, 7],
   gender: 'female',
   name: 'silvia'
 },
 {
   age: 23,
-  examScores: [],
+  examScores: [9, 8, 8],
   gender: 'female',
   name: 'carmen'
 },
 {
   age: 27,
-  examScores: [],
+  examScores: [7, 6, 9],
   gender: 'male',
   name: 'peter'
 },
 {
   age: 20,
-  examScores: [],
+  examScores: [5, 8, 9],
   gender: 'male',
   name: 'sebas'
 },
 {
   age: 28,
-  examScores: [],
+  examScores: [2, 7, 6],
   gender: 'female',
   name: 'marta'
 }
@@ -42,15 +42,12 @@ const availableTotalNames = ['pepe', 'juan', 'victor', 'Leo', 'francisco', 'carl
 const availableGenders = ['male', 'female'];
 
 
-import readline from 'readline'; /*importo esto desde aqui-->es algo que nos ofrece node*/
+import readline from 'readline'; /*importo esto desde aqui-->es algo que nos ofrece node, tengo que crear el fichero package.json*/
 
 function calculateRandomNumber(min, max){
     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min; /*floor redondea*/
     return randomNumber;
 }
-
-const secretNumber = calculateRandomNumber(0, 100);/*tu le puedes pedir el número al servidor(node) o al navegador. Lo haremos con node*/
-
 
 //Configuramos la utilidad de node para que los datos se pidan y se muestren por consola.
 const rl = readline.createInterface({
@@ -58,28 +55,45 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-//Productor
-/*
+//Productor -->quien gestiona y retorna la promesa
 function getNumberFromConsole() {
   const promise = new Promise((resolve, reject) => {
-      rl.question('Introduce un número del 1 al 15: ', (num) => {
-          rl.pause();
-          resolve(num)
+    if( 
+      rl.question('Introduce un número del 1 al 18: ', (num) => {
+            rl.pause();
+            resolve(num)
+            reject()
           //si el usuario mete una letra, debemos hacer un reject
-      })
+      }));
+    else{
+
+    } 
   })
   return promise;
 }
 
-//Consumidor
-//const numberFromConsole = await getNumberFromConsole();
+//Consumidor -->quien consume la promesa
 
-//pruebas: const numberFromConsole = 15;
-* */
-let x = rl.question("Introduce un número del 1 al 15: ");
-let intNumber = parseInt(x);
-while (intNumber > 0 && intNumber <= 15){
-  switch(intNumber){
+
+async function main(){
+  try{
+    //const numberFromConsole = await getNumberFromConsole();
+    //const numberFromConsoleParse = parseInt(numberFromConsole) 
+    }
+    catch(error) {
+      console.log('Error, la aplicación terminó')
+  }
+}
+
+const numberFromConsoleParse = 1 //inicializo la variable para que se meta en el do/while
+
+do {
+  const numberFromConsole = await getNumberFromConsole();
+  const numberFromConsoleParse = parseInt(numberFromConsole) //numberFromConsole me estaba dando un string, por eso no me linkeaba con el switch -->la casteo
+  
+  console.log(numberFromConsoleParse);
+
+  switch(numberFromConsoleParse) {
     case 1:
       console.log
       break;
@@ -87,6 +101,7 @@ while (intNumber > 0 && intNumber <= 15){
     case 2:
       console.log(students.length)
       break;
+
     case 3:
       for (let index = 0; index <= students.length - 1; index++){
         console.log(students[index].name)
@@ -94,8 +109,8 @@ while (intNumber > 0 && intNumber <= 15){
       break;
 
     case 4:
-      console.log(students.pop())
-      console.log('La nueva lista quedaría ', students)
+      console.log('Se elimina al alumno/a: ', students.pop())
+      //console.log('La nueva lista quedaría ', students)
       break;
 
     case 5:
@@ -118,7 +133,7 @@ while (intNumber > 0 && intNumber <= 15){
 
     case 8:
       let femalesEvery = students.every(student => student.gender === 'female')
-      console.log(femalesEvery)
+      console.log('La respuesta es: ', femalesEvery, '. No todos los alumnos son mujeres')
       break;
 
     case 9:
@@ -134,8 +149,7 @@ while (intNumber > 0 && intNumber <= 15){
         examScores: [],
         name: randomName,
         gender: isGender, //intentar darle la vuelta primero gender y luego name
-      }
-      )
+      })
       console.log(students[newStudent - 1]) //por eso aqui me voy a la lista total, e imprimo "longitud de la lista = newStudent-->7" - 1
       break;
 
@@ -168,7 +182,7 @@ while (intNumber > 0 && intNumber <= 15){
 
     case 14:
       for (let index = 0; index <= students.length - 1; index++){
-        students[index].examScores = calculateRandomNumber(0 , 10)
+        students[index].examScores.push(calculateRandomNumber(0 , 10))
       }
       console.log(students)
       break;
@@ -177,8 +191,36 @@ while (intNumber > 0 && intNumber <= 15){
       let orderStudents = students.sort((a,b) => (a.name > b.name) ? 1 : -1); //Preguntar callback function
       console.log(orderStudents)
       break;
+    
+    case 16: //mejorable
+      let totalNotes = []
+      for(let index = 0; index <= students.length -1; index++){
+        totalNotes.push(students[index].examScores.reduce((sum, n) => {return (sum + n)}, 0))
+          }
+      //console.log(totalNotes)
 
-    default:
-      console.log("Número no válido, se acabó");
+      for (let index = 0; index <= students.length - 1; index++){
+        if(students[index].examScores.reduce((sum, n) => {return (sum + n)}, 0) === Math.max.apply(Math, totalNotes)){
+          console.log(students[index])}
+      }
+      break;
+
+    case 17:
+      let totalNotes1 = []
+      for(let index = 0; index <= students.length -1; index++){
+        totalNotes1.push((students[index].examScores.reduce((sum, n) => {return (sum + n)}, 0))
+        / (students[index].examScores.length))
+      }
+      //console.log(totalNotes1)
+  
+      for (let index = 0; index <= students.length - 1; index++){
+        if(students[index].examScores.reduce((sum, n) => {return (sum + n)}, 0) 
+        / (students[index].examScores.length) === Math.max.apply(Math, totalNotes1)){
+          console.log(students[index].name)
+          console.log(Math.max.apply(Math, totalNotes1))
+        }
+      }
+      break;
   }
-} 
+} while (numberFromConsoleParse > 0 && numberFromConsoleParse <= 17);
+
