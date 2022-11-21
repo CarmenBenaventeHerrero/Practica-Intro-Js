@@ -92,11 +92,11 @@ do {
   const numberFromConsole = await getNumberFromConsole();
   const numberFromConsoleParse = parseInt(numberFromConsole) //numberFromConsole me estaba dando un string, por eso no me linkeaba con el switch -->la casteo
   
-  console.log(numberFromConsoleParse);
+  //console.log(numberFromConsoleParse);
 
   switch(numberFromConsoleParse) {
     case 1:
-      console.log
+      console.table(students)
       break;
 
     case 2:
