@@ -1,6 +1,6 @@
 const students = [{
   age: 32,
-  examScores: [5, 7, 8],
+  examScores: [3, 4, 6],
   gender: 'male',
   name: 'edu'
 },
@@ -17,7 +17,7 @@ const students = [{
   name: 'carmen'
 },
 {
-  age: 27,
+  age: 25,
   examScores: [7, 6, 9],
   gender: 'male',
   name: 'peter'
@@ -30,7 +30,7 @@ const students = [{
 },
 {
   age: 28,
-  examScores: [2, 7, 6],
+  examScores: [],
   gender: 'female',
   name: 'marta'
 }
@@ -68,14 +68,14 @@ const isInt = (str) => { //parseInt recibe cualquier valor y te lo convierte a n
 //Productor -->quien gestiona y retorna la promesa
 function getNumberFromConsole() {
   const promise = new Promise((resolve, reject) => {
-    rl.question('Introduce un número del 1 al 17: ', (num) => {
+    rl.question('Introduce un número del 1 al 18: ', (num) => {
       rl.pause();
-      if(isInt(num)) {//(num > 0 && num <= 17)
+      if(isInt(num)) {
         num = Number.parseInt(num);
         resolve(num)
     }
       else{
-        reject('Lo siento. Se acabó la partida')
+        reject('Lo siento. Se acabó la partida. Has introducido un valor incorrecto')
       }
       })
     })
@@ -85,8 +85,6 @@ function getNumberFromConsole() {
 //Consumidor -->quien consume la promesa
 async function playGame(){
  
-    //const numberFromConsole = await getNumberFromConsole();
-    //const numberFromConsoleParse = parseInt(numberFromConsole) 
   
     let numberFromConsole;//inicializo la variable para que se meta en el do/while
     
@@ -116,11 +114,7 @@ async function playGame(){
     
     try {
       numberFromConsole = await getNumberFromConsole();
-  }
-    catch(error) {
-      console.log(error)
-      process.exit(0)
-  }
+    
     switch(numberFromConsole) {
       case 1:
         console.table(students)
@@ -138,7 +132,6 @@ async function playGame(){
 
       case 4:
         console.log('Se elimina al último alumno/a: ', students.pop())
-        //console.log('La nueva lista quedaría ', students)
         break;
 
       case 5:
@@ -165,17 +158,22 @@ async function playGame(){
 
       case 9:
         let studentAgeRange = students.filter(student => student.age >= 20 && student.age <= 25)
-        console.log("Nombre 1: " + studentAgeRange[0].name,"\nNombre 2: " + studentAgeRange[1].name)
+          if(studentAgeRange.length === 0){
+            console.log('No hay ningún alumno con esa edad')
+          } else {
+              for(let index = 0; index <= studentAgeRange.length - 1; index++){
+                console.log(studentAgeRange[index].name)}
+          }
         break;
 
       case 10:
         let randomName = availableTotalNames[calculateRandomNumber(0, availableTotalNames.length - 1)]
         let isGender = (availableFemaleNames.includes(randomName)) ? 'female' : 'male';
-        let newStudent = students.push({ //añade un objeto al final de la lista, pero devuelve la longitud de la lista
+        let newStudent = students.push({ //push añade un objeto al final de la lista, pero devuelve la longitud de la lista
           age: calculateRandomNumber(20, 50),
           examScores: [],
           name: randomName,
-          gender: isGender, //intentar darle la vuelta primero gender y luego name
+          gender: isGender, 
         })
         console.log("El nuevo alumno/a de la clase es: ", students[newStudent - 1]) //por eso aqui me voy a la lista total, e imprimo "longitud de la lista = newStudent-->7" - 1
         break;
@@ -188,7 +186,6 @@ async function playGame(){
         for (let index = 0; index <= students.length - 1; index++){
           if (students[index].age === Math.min.apply(Math, age)){
             console.log(students[index].name)
-            break;
           }
         }
         break;
@@ -201,7 +198,6 @@ async function playGame(){
 
       case 13:
         let femalesFilter = students.filter(student => student.gender === 'female');
-        //console.log(femalesFilter)
         let sumAgeFemale = (femalesFilter.reduce((sum, n) => {return (sum + n.age)}, 0))
         let averAgeFemale = sumAgeFemale / femalesFilter.length
         console.log(averAgeFemale)
@@ -219,15 +215,14 @@ async function playGame(){
         console.log(orderStudents)
         break;
       
-      case 16: //mejorable
+      case 16: 
         let totalNotes = []
         for(let index = 0; index <= students.length -1; index++){
           totalNotes.push(students[index].examScores.reduce((sum, n) => {return (sum + n)}, 0))
             }
-        //console.log(totalNotes)
 
-        for (let index = 0; index <= students.length - 1; index++){
-          if(students[index].examScores.reduce((sum, n) => {return (sum + n)}, 0) === Math.max.apply(Math, totalNotes)){
+        for (let index = 0; index <= totalNotes.length - 1; index++){
+          if(totalNotes[index] === Math.max.apply(Math, totalNotes)){
             console.log(students[index])}
         }
         break;
@@ -246,11 +241,39 @@ async function playGame(){
           }
         }
         break;
+
+      case 18: 
+        for(let index = 0; index <= students.length - 1; index++){
+          if(students[index].examScores.length === 0){
+            students[index].examScores.push(10);
+          } else { students[index].examScores =
+            students[index].examScores.map(n => n < 10 ? n + 1 : n)}
+          console.log(students[index].examScores)
+        }
+        
+        /*
+        for(let index = 0; index <= students.length - 1; index++){
+          for(let i = 0; i <= students[index].examScores.length - 1; i++){
+            if(students[index].examScores[i] < 10){
+              (students[index].examScores[i] += 1)}
+            if(students[index].examScores.length === 0){
+              console.log(students[index].examScores.push(10))
+          }
+        }console.log(students[index].examScores)
+      }
+    */   
+        break;
+
       default:
         rl.close() //le decimos a la utilidadad de readline que no queremos pedir más número por consola
-        console.log('Lo siento. Se acabó la partida')
-    }
-} while (numberFromConsole > 0 && numberFromConsole <= 17);
+        console.log('Lo siento. Se acabó la partida. Has introducido un valor incorrecto')
+    } 
+  }
+    catch(error) {
+      console.log(error)
+      process.exit(0)
+  }
+} while (numberFromConsole > 0 && numberFromConsole <= 18);
 }
 
 playGame();
